@@ -1,4 +1,5 @@
 import java.io.*;
+import java.util.Objects;
 
 /**
  * This is the provided NumberTriangle class to be used in this coding task.
@@ -41,7 +42,6 @@ public class NumberTriangle {
     public void setLeft(NumberTriangle left) {
         this.left = left;
     }
-
 
     public void setRight(NumberTriangle right) {
         this.right = right;
@@ -88,8 +88,17 @@ public class NumberTriangle {
      *
      */
     public int retrieve(String path) {
-        // TODO implement this method
-        return -1;
+        String[] brokenPath = path.split("");
+        NumberTriangle target = this;
+        for (String s : brokenPath) {
+            if (Objects.equals(s, "l")) {
+                target = target.left;
+            }
+            else if (Objects.equals(s, "r")) {
+                target = target.right;
+            }
+        }
+        return target.getRoot();
     }
 
     /** Read in the NumberTriangle structure from a file.
@@ -148,6 +157,8 @@ public class NumberTriangle {
                 rowOne[i].setRight(rowTwo[i + 1]);
             }
 
+            // assign row two to row one to move to next line
+            rowOne = rowTwo;
             //read the next line
             line = br.readLine();
         }
@@ -164,5 +175,6 @@ public class NumberTriangle {
         // Problem 18 from project Euler [not for credit]
         mt.maxSumPath();
         System.out.println(mt.getRoot());
+        System.out.println(mt.retrieve("lr"));
     }
 }
